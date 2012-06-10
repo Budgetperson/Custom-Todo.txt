@@ -6,7 +6,7 @@ TODO_FILE_NAME = "todo.txt"
 
 
 # DATA RECORD CLASSES
-# ==================
+# ===================
 class TodoList
 	attr_accessor :todos, :text
 	def initialize
@@ -27,7 +27,7 @@ class TodoList
 
 			if todo[:contexts] todo[:contexts].each { |context| todotxt += "@#{context} " }
 
-			
+
 
 		end
 	end
