@@ -11,26 +11,25 @@ class TodoList
 	attr_accessor :todos, :text
 	def initialize
 		@todos = []
-		@text = File.open(TODO_FILE_NAME, "rb").read
+		@text = File.open(TODO_FILE_NAME, "r").read
 	end
 
-	def to_s
-		todotxt = ""
-		@todos.each do |todo|
-			if todo[:priority] && todo[:priority] ~= /[A-Z]/
-				todotxt += "(#{todo[:priority]}) "
-			end
-
-			todo[:task] ? todotxt += (todo[:task] + " ") : return false
-
-			todotxt += (todo[:project] + " ") if todo[:project]
-
-			if todo[:contexts] todo[:contexts].each { |context| todotxt += "@#{context} " }
-
-
-
+	def filter(query)
+		result = ""
+		case query
+			when String
+				@text.split("\n").each do |todo|
+					if(todo.index(query))
+						result += todo
+						result += "\n"
+					end
+				end
+			when Hash
 		end
+
+		return result
 	end
+
 
 
 end
@@ -39,5 +38,7 @@ end
 todo_list = TodoList.new
 
 if ARGV[0] == "ls"
-	puts todo_list.text
+	puts todo_list.text unless ARGV[1]
+	puts todo_list.filter(ARGV[1]) if ARGV[1]
 end
+
